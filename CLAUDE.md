@@ -13,10 +13,16 @@ npm run preview  # Preview production build
 
 ## Architecture
 
-This is a single-page React app (Vite + React 19). All application logic lives in `src/App.jsx` — there are no separate components, hooks, or services files. State is managed entirely with `useState`.
+This is a single-page React app (Vite + React 19). State is managed entirely with `useState`.
 
-**Known intentional issues (part of the course):**
-- Bug: `amount` is stored as a string, so `reduce` concatenates instead of summing (e.g. `totalIncome` and `totalExpenses` are wrong)
+**Component structure:**
+
+- `App.jsx` — root component; owns the `transactions` array state and passes it down to children
+- `Summary.jsx` — receives `transactions`, computes `totalIncome`, `totalExpenses`, and `balance` internally
+- `TransactionForm.jsx` — owns its own form state (description, amount, type, category); calls `onAdd(transaction)` prop when submitted
+- `TransactionList.jsx` — receives `transactions`, owns filter state (filterType, filterCategory) internally
+
+The `categories` constant is duplicated in `TransactionForm.jsx` and `TransactionList.jsx` — worth extracting to a shared file if it grows.
+
+**Known intentional issue (part of the course):**
 - Transaction #4 ("Freelance Work") is marked `type: "expense"` but categorized as `"salary"` — data inconsistency
-- UI styling is minimal/rough
-- All code is in one file with no component decomposition
