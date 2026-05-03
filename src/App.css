@@ -95,6 +95,25 @@ form button {
   font-size: 14px;
 }
 
+.spending-chart {
+  border: 1px solid #ddd;
+  padding: 16px;
+  margin-bottom: 24px;
+  background: #fff;
+}
+
+.spending-chart h2 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.chart-empty {
+  color: #888;
+  font-size: 14px;
+  text-align: center;
+  padding: 40px 0;
+}
+
 .transactions {
   margin-bottom: 24px;
 }
