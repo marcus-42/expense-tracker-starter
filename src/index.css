@@ -1,11 +1,45 @@
-* {
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+:root {
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --bg-base: #070b14;
+  --bg-surface: #0d1220;
+  --bg-elevated: #131929;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-hover: rgba(255, 255, 255, 0.11);
+
+  --text-primary: #dde4f5;
+  --text-secondary: #8893b8;
+  --text-muted: #4a5278;
+
+  --income: #2dd4aa;
+  --income-dim: rgba(45, 212, 170, 0.1);
+  --expense: #f96b8a;
+  --expense-dim: rgba(249, 107, 138, 0.1);
+  --accent: #7c83f5;
+  --accent-dim: rgba(124, 131, 245, 0.12);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-xs: 6px;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background-color: #ffffff;
-  color: #333;
+  font-family: var(--font-body);
+  background-color: var(--bg-base);
+  background-image:
+    radial-gradient(ellipse at 20% 0%, rgba(20, 30, 60, 0.6) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 100%, rgba(10, 14, 35, 0.7) 0%, transparent 55%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }

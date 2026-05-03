@@ -1,5 +1,7 @@
 import React from 'react'
 
+const fmt = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
 function Summary({ transactions }) {
   const totalIncome = transactions
     .filter(t => t.type === "income")
@@ -14,19 +16,32 @@ function Summary({ transactions }) {
   return (
     <div className="summary">
       <div className="summary-card">
-        <h3>Income</h3>
-        <p className="income-amount">${totalIncome}</p>
+        <div className="summary-label">
+          <span className="summary-dot income-dot" />
+          Income
+        </div>
+        <p className="summary-amount income-amount">+${fmt(totalIncome)}</p>
       </div>
+
       <div className="summary-card">
-        <h3>Expenses</h3>
-        <p className="expense-amount">${totalExpenses}</p>
+        <div className="summary-label">
+          <span className="summary-dot expense-dot" />
+          Expenses
+        </div>
+        <p className="summary-amount expense-amount">-${fmt(totalExpenses)}</p>
       </div>
+
       <div className="summary-card">
-        <h3>Balance</h3>
-        <p className="balance-amount">${balance}</p>
+        <div className="summary-label">
+          <span className="summary-dot balance-dot" />
+          Balance
+        </div>
+        <p className={`summary-amount ${balance >= 0 ? 'income-amount' : 'expense-amount'}`}>
+          {balance >= 0 ? '+' : '-'}${fmt(Math.abs(balance))}
+        </p>
       </div>
     </div>
-  )
+  );
 }
 
 export default Summary
