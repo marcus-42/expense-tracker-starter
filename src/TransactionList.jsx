@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-
-const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
+import { CATEGORIES } from './constants'
 
 const CATEGORY_STYLE = {
-  food:          { color: '#fb923c', bg: 'rgba(251,146,60,0.12)' },
-  housing:       { color: '#60a5fa', bg: 'rgba(96,165,250,0.12)' },
-  utilities:     { color: '#facc15', bg: 'rgba(250,204,21,0.12)' },
-  transport:     { color: '#22d3ee', bg: 'rgba(34,211,238,0.12)' },
-  entertainment: { color: '#f472b6', bg: 'rgba(244,114,182,0.12)' },
-  salary:        { color: '#4ade80', bg: 'rgba(74,222,128,0.12)' },
-  other:         { color: '#94a3b8', bg: 'rgba(148,163,184,0.12)' },
+  food:          { color: 'var(--cat-food)',          bg: 'var(--cat-food-dim)' },
+  housing:       { color: 'var(--cat-housing)',       bg: 'var(--cat-housing-dim)' },
+  utilities:     { color: 'var(--cat-utilities)',     bg: 'var(--cat-utilities-dim)' },
+  transport:     { color: 'var(--cat-transport)',     bg: 'var(--cat-transport-dim)' },
+  entertainment: { color: 'var(--cat-entertainment)', bg: 'var(--cat-entertainment-dim)' },
+  salary:        { color: 'var(--cat-salary)',        bg: 'var(--cat-salary-dim)' },
+  other:         { color: 'var(--cat-other)',         bg: 'var(--cat-other-dim)' },
 };
 
 function CategoryBadge({ category }) {
@@ -43,45 +42,60 @@ function TransactionList({ transactions, onDelete }) {
       <h2>Transactions</h2>
 
       <div className="filters">
-        <select value={filterType} onChange={(e) => setFilterType(e.target.value)}>
+        <label htmlFor="filter-type" className="sr-only">Filter by type</label>
+        <select id="filter-type" value={filterType} onChange={(e) => setFilterType(e.target.value)}>
           <option value="all">All Types</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <select value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
+
+        <label htmlFor="filter-category" className="sr-only">Filter by category</label>
+        <select id="filter-category" value={filterCategory} onChange={(e) => setFilterCategory(e.target.value)}>
           <option value="all">All Categories</option>
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+          {CATEGORIES.map(cat => (
+            <option key={cat} value={cat}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </option>
           ))}
         </select>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Amount</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map(t => (
-            <tr key={t.id}>
-              <td className="td-date">{t.date}</td>
-              <td className="td-description">{t.description}</td>
-              <td><CategoryBadge category={t.category} /></td>
-              <td className={`td-amount ${t.type === 'income' ? 'income-amount' : 'expense-amount'}`}>
-                {t.type === 'income' ? '+' : '-'}${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
-              </td>
-              <td>
-                <button className="delete-btn" onClick={() => handleDelete(t)}>Delete</button>
-              </td>
+      {filtered.length === 0 ? (
+        <p className="chart-empty">No transactions match the selected filters.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Description</th>
+              <th scope="col">Category</th>
+              <th scope="col">Amount</th>
+              <th scope="col"><span className="sr-only">Actions</span></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtered.map(t => (
+              <tr key={t.id}>
+                <td className="td-date">{t.date}</td>
+                <td className="td-description">{t.description}</td>
+                <td><CategoryBadge category={t.category} /></td>
+                <td className={`td-amount ${t.type === 'income' ? 'income-amount' : 'expense-amount'}`}>
+                  {t.type === 'income' ? '+' : '-'}${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                </td>
+                <td>
+                  <button
+                    className="delete-btn"
+                    onClick={() => handleDelete(t)}
+                    aria-label={`Delete transaction: ${t.description}`}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

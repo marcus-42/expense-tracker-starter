@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-
-const categories = ["food", "housing", "utilities", "transport", "entertainment", "salary", "other"];
+import { CATEGORIES } from './constants'
 
 function TransactionForm({ onAdd }) {
   const [description, setDescription] = useState("");
@@ -10,12 +9,13 @@ function TransactionForm({ onAdd }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!description || !amount) return;
+    const parsedAmount = parseFloat(amount);
+    if (!description.trim() || !parsedAmount || parsedAmount <= 0) return;
 
     onAdd({
-      id: Date.now(),
-      description,
-      amount: parseFloat(amount),
+      id: crypto.randomUUID(),
+      description: description.trim(),
+      amount: parsedAmount,
       type,
       category,
       date: new Date().toISOString().split('T')[0],
@@ -31,27 +31,41 @@ function TransactionForm({ onAdd }) {
     <div className="add-transaction">
       <h2>Add Transaction</h2>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="tx-description" className="sr-only">Description</label>
         <input
+          id="tx-description"
           type="text"
           placeholder="Description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
         />
+
+        <label htmlFor="tx-amount" className="sr-only">Amount</label>
         <input
+          id="tx-amount"
           type="number"
           placeholder="Amount"
+          min="0.01"
+          step="0.01"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
         />
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+
+        <label htmlFor="tx-type" className="sr-only">Type</label>
+        <select id="tx-type" value={type} onChange={(e) => setType(e.target.value)}>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
-        <select value={category} onChange={(e) => setCategory(e.target.value)}>
-          {categories.map(cat => (
-            <option key={cat} value={cat}>{cat}</option>
+
+        <label htmlFor="tx-category" className="sr-only">Category</label>
+        <select id="tx-category" value={category} onChange={(e) => setCategory(e.target.value)}>
+          {CATEGORIES.map(cat => (
+            <option key={cat} value={cat}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1)}
+            </option>
           ))}
         </select>
+
         <button type="submit">Add</button>
       </form>
     </div>

@@ -29,6 +29,33 @@
   --radius: 12px;
   --radius-sm: 8px;
   --radius-xs: 6px;
+
+  --cat-food: #fb923c;
+  --cat-food-dim: rgba(251,146,60,0.12);
+  --cat-housing: #60a5fa;
+  --cat-housing-dim: rgba(96,165,250,0.12);
+  --cat-utilities: #facc15;
+  --cat-utilities-dim: rgba(250,204,21,0.12);
+  --cat-transport: #22d3ee;
+  --cat-transport-dim: rgba(34,211,238,0.12);
+  --cat-entertainment: #f472b6;
+  --cat-entertainment-dim: rgba(244,114,182,0.12);
+  --cat-salary: #4ade80;
+  --cat-salary-dim: rgba(74,222,128,0.12);
+  --cat-other: #94a3b8;
+  --cat-other-dim: rgba(148,163,184,0.12);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 body {
